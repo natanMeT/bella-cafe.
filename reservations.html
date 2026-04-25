@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>הזמנת שולחן | בלה Boutique Cafe Safed</title>
+  <meta name="description" content="הזמינו שולחן בבלה קפה בוטיק צפת – טופס הזמנה אלגנטי, מענה מהיר." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .reserve-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .reserve-aside { position: sticky; top: calc(var(--nav-h) + 2rem); }
+    .reserve-img {
+      width: 100%;
+      height: 320px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 1.75rem;
+      box-shadow: var(--shadow-med);
+    }
+    .reserve-img img { width:100%; height:100%; }
+    .reserve-info-card {
+      background: var(--warm-white);
+      border-radius: 10px;
+      padding: 1.75rem;
+      border: 1px solid var(--gold-border);
+      box-shadow: var(--shadow-soft);
+    }
+    .reserve-info-card h4 { margin-bottom: 1.25rem; font-size: 1.1rem; }
+    .reserve-info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: var(--medium-brown);
+    }
+    .reserve-info-item .icon { color: var(--gold); font-size: 1rem; flex-shrink:0; margin-top:1px; }
+    .guest-selector {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .guest-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      border: 1.5px solid var(--light-gray);
+      background: var(--warm-white);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--medium-brown);
+      font-family: var(--font-sans);
+    }
+    .guest-btn:hover, .guest-btn.selected {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--espresso);
+    }
+    .time-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+    }
+    .time-btn {
+      padding: 0.6rem 0.4rem;
+      border-radius: 6px;
+      border: 1.5px solid var(--light-gray);
+      background: var(--warm-white);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--medium-brown);
+      font-family: var(--font-sans);
+      text-align: center;
+    }
+    .time-btn:hover, .time-btn.selected {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--espresso);
+    }
+    .time-btn.unavailable {
+      opacity: 0.35;
+      cursor: not-allowed;
+      text-decoration: line-through;
+    }
+    @media(max-width:900px){
+      .reserve-layout{grid-template-columns:1fr;}
+      .reserve-aside{position:static;}
+    }
+  </style>
+</head>
+<body>
+
+<nav id="navbar" class="scrolled">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-main">בלה</span>
+      <span class="logo-sub">Boutique Cafe · Safed</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html"        class="nav-link">בית</a></li>
+      <li><a href="menu.html"         class="nav-link">תפריט</a></li>
+      <li><a href="about.html"        class="nav-link">אודות</a></li>
+      <li><a href="gallery.html"      class="nav-link">גלריה</a></li>
+      <li><a href="reviews.html"      class="nav-link">ביקורות</a></li>
+      <li><a href="contact.html"      class="nav-link">צור קשר</a></li>
+    </ul>
+    <div class="nav-cta"><a href="reservations.html" class="btn btn-gold btn-sm active">הזמנת שולחן</a></div>
+    <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="nav-mobile" id="navMobile">
+  <a href="index.html"   class="nav-link">🏠 בית</a>
+  <a href="menu.html"    class="nav-link">☕ תפריט</a>
+  <a href="about.html"   class="nav-link">💛 אודות</a>
+  <a href="gallery.html" class="nav-link">🖼️ גלריה</a>
+  <a href="reviews.html" class="nav-link">⭐ ביקורות</a>
+  <a href="contact.html" class="nav-link">📍 צור קשר</a>
+  <div class="nav-cta">
+    <a href="reservations.html" class="btn btn-gold">הזמנת שולחן</a>
+    <a href="tel:0400000000"    class="btn btn-dark">📞 התקשר</a>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1600&q=85');"></div>
+  <div class="page-hero-content">
+    <span class="section-label" style="color:var(--teal-light);">שמרו את מקומכם</span>
+    <h1>הזמנת שולחן</h1>
+    <p>נשמח לארח אתכם – כל ביקור הוא חוויה</p>
+  </div>
+</section>
+
+<!-- RESERVATION SECTION -->
+<section class="section-pad" style="background:var(--cream);">
+  <div class="container">
+    <div class="reserve-layout">
+
+      <!-- Aside info -->
+      <div class="reserve-aside reveal-right">
+        <div class="reserve-img">
+          <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=85" alt="שולחן בבלה" />
+        </div>
+        <div class="reserve-info-card">
+          <h4>מידע חשוב</h4>
+          <div class="reserve-info-item">
+            <span class="icon">🕐</span>
+            <div>
+              <strong style="display:block;color:var(--espresso);font-size:0.82rem;margin-bottom:2px;">שעות פתיחה</strong>
+              א'–ה': 08:00–22:00<br/>
+              ו': 08:00–15:00<br/>
+              שבת: סגור
+            </div>
+          </div>
+          <div class="reserve-info-item">
+            <span class="icon">👥</span>
+            <div>
+              <strong style="display:block;color:var(--espresso);font-size:0.82rem;margin-bottom:2px;">קבוצות גדולות</strong>
+              לקבוצות מעל 8 איש – צרו קשר ישירות
+            </div>
+          </div>
+          <div class="reserve-info-item">
+            <span class="icon">⏱️</span>
+            <div>
+              <strong style="display:block;color:var(--espresso);font-size:0.82rem;margin-bottom:2px;">אישור הזמנה</strong>
+              נחזור אליכם תוך שעה לאישור
+            </div>
+          </div>
+          <div class="reserve-info-item">
+            <span class="icon">🎂</span>
+            <div>
+              <strong style="display:block;color:var(--espresso);font-size:0.82rem;margin-bottom:2px;">אירועים מיוחדים</strong>
+              ימי הולדת, חגיגות, הפתעות – ציינו בהערות
+            </div>
+          </div>
+          <div class="reserve-info-item">
+            <span class="icon">🔄</span>
+            <div>
+              <strong style="display:block;color:var(--espresso);font-size:0.82rem;margin-bottom:2px;">ביטול הזמנה</strong>
+              עד 2 שעות לפני – ללא עלות
+            </div>
+          </div>
+          <div style="margin-top:1.5rem;display:flex;flex-direction:column;gap:0.6rem;">
+            <a href="tel:0400000000"          class="btn btn-call" style="justify-content:center;">📞 התקשר להזמנה</a>
+            <a href="https://wa.me/9720500000000" class="btn btn-whatsapp" style="justify-content:center;">💬 הזמן ב-WhatsApp</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="reveal-left">
+        <div class="form-card">
+          <span class="section-label">טופס הזמנה</span>
+          <h3>פרטי ההזמנה שלכם</h3>
+
+          <form id="reserveForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="resName">שם מלא *</label>
+                <input type="text" id="resName" name="name" placeholder="שמכם המלא" required />
+              </div>
+              <div class="form-group">
+                <label for="resPhone">טלפון *</label>
+                <input type="tel" id="resPhone" name="phone" placeholder="מספר טלפון" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>מספר סועדים *</label>
+              <div class="guest-selector" id="guestSelector">
+                <button type="button" class="guest-btn" data-val="1">1</button>
+                <button type="button" class="guest-btn" data-val="2">2</button>
+                <button type="button" class="guest-btn" data-val="3">3</button>
+                <button type="button" class="guest-btn" data-val="4">4</button>
+                <button type="button" class="guest-btn" data-val="5">5</button>
+                <button type="button" class="guest-btn" data-val="6">6</button>
+                <button type="button" class="guest-btn" data-val="7">7</button>
+                <button type="button" class="guest-btn" data-val="8">8</button>
+                <button type="button" class="guest-btn" data-val="8+">+8</button>
+              </div>
+              <input type="hidden" id="resGuests" name="guests" required />
+            </div>
+
+            <div class="form-group">
+              <label for="resDate">תאריך *</label>
+              <input type="date" id="resDate" name="date" required />
+            </div>
+
+            <div class="form-group">
+              <label>שעה מועדפת *</label>
+              <div class="time-grid" id="timeGrid">
+                <button type="button" class="time-btn" data-val="08:00">08:00</button>
+                <button type="button" class="time-btn" data-val="09:00">09:00</button>
+                <button type="button" class="time-btn" data-val="10:00">10:00</button>
+                <button type="button" class="time-btn" data-val="11:00">11:00</button>
+                <button type="button" class="time-btn" data-val="12:00">12:00</button>
+                <button type="button" class="time-btn" data-val="13:00">13:00</button>
+                <button type="button" class="time-btn" data-val="14:00">14:00</button>
+                <button type="button" class="time-btn" data-val="15:00">15:00</button>
+                <button type="button" class="time-btn" data-val="16:00">16:00</button>
+                <button type="button" class="time-btn" data-val="17:00">17:00</button>
+                <button type="button" class="time-btn" data-val="18:00">18:00</button>
+                <button type="button" class="time-btn" data-val="19:00">19:00</button>
+                <button type="button" class="time-btn" data-val="20:00">20:00</button>
+                <button type="button" class="time-btn" data-val="21:00">21:00</button>
+              </div>
+              <input type="hidden" id="resTime" name="time" required />
+            </div>
+
+            <div class="form-group">
+              <label for="resNotes">הערות מיוחדות</label>
+              <textarea id="resNotes" name="notes" placeholder="אלרגיות, בקשות מיוחדות, אירועים מיוחדים..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-gold btn-lg" style="width:100%;font-size:1.05rem;">
+              שלח בקשת הזמנה 🗓️
+            </button>
+            <p style="text-align:center;font-size:0.8rem;color:var(--warm-gray);margin-top:0.75rem;">
+              נחזור אליכם תוך שעה לאישור ההזמנה
+            </p>
+          </form>
+
+          <div class="form-success" id="reserveSuccess">
+            <div class="success-icon">🎉</div>
+            <h3>בקשת ההזמנה התקבלה!</h3>
+            <p style="color:var(--medium-brown);font-size:1.05rem;font-weight:600;">
+              תודה על בקשת ההזמנה. ניצור קשר לאישור.
+            </p>
+            <p style="margin-top:0.5rem;font-size:0.9rem;">מצפים לארח אתכם בבלה ☕</p>
+            <a href="menu.html" class="btn btn-gold" style="margin-top:1.5rem;">לצפייה בתפריט</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <span class="logo-main">בלה</span>
+          <span class="logo-sub">Boutique Cafe · Safed</span>
+          <p>קפה בוטיק יוקרתי בלב צפת העתיקה.</p>
+          <div class="footer-socials">
+            <a href="#" class="social-icon">📸</a><a href="#" class="social-icon">📘</a>
+            <a href="https://wa.me/9720500000000" class="social-icon">💬</a><a href="#" class="social-icon">🎵</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>ניווט</h5>
+          <ul class="footer-links">
+            <li><a href="index.html">בית</a></li><li><a href="menu.html">תפריט</a></li>
+            <li><a href="about.html">אודות</a></li><li><a href="gallery.html">גלריה</a></li>
+            <li><a href="reservations.html">הזמנת שולחן</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>פרטי קשר</h5>
+          <div class="footer-contact">
+            <div class="footer-contact-item"><span class="icon">📍</span><span>רחוב הגליל 1, צפת</span></div>
+            <div class="footer-contact-item"><span class="icon">📞</span><a href="tel:0400000000">04-0000000</a></div>
+            <div class="footer-contact-item"><span class="icon">📱</span><a href="https://wa.me/9720500000000">050-0000000</a></div>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>שעות פתיחה</h5>
+          <div class="hours-list" style="margin-bottom:1.5rem;">
+            <div class="hours-row"><span class="days">א'–ה'</span><span class="time">08:00–22:00</span></div>
+            <div class="hours-row"><span class="days">יום ו'</span><span class="time">08:00–15:00</span></div>
+            <div class="hours-row"><span class="days">שבת</span><span class="time" style="color:var(--warm-gray);">סגור</span></div>
+          </div>
+          <form class="newsletter-form" onsubmit="return false;">
+            <input type="email" placeholder="האימייל שלכם" />
+            <button type="submit">הירשם</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom"><div class="container"><p>© 2024 בלה Boutique Cafe Safed · כל הזכויות שמורות</p></div></div>
+</footer>
+
+<div class="whatsapp-float">
+  <a href="https://wa.me/9720500000000" class="whatsapp-btn" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+</div>
+
+<script src="script.js"></script>
+<script>
+  // Guest selector
+  document.querySelectorAll('.guest-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.guest-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      document.getElementById('resGuests').value = btn.dataset.val;
+    });
+  });
+  // Time selector
+  document.querySelectorAll('.time-btn:not(.unavailable)').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      document.getElementById('resTime').value = btn.dataset.val;
+    });
+  });
+</script>
+</body>
+</html>

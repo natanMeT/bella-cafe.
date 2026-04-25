@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>תפריט | בלה Boutique Cafe Safed</title>
+  <meta name="description" content="תפריט בלה קפה בוטיק צפת – קפה, שתייה חמה, ארוחות בוקר, מאפים, קינוחים, שתייה קרה ומיוחדי העונה." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .menu-tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      padding: 1.75rem 0 0;
+      border-bottom: 2px solid var(--gold-border);
+      margin-bottom: 3rem;
+    }
+    .menu-tab {
+      padding: 0.6rem 1.35rem;
+      border-radius: 50px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1.5px solid var(--light-gray);
+      background: var(--warm-white);
+      color: var(--medium-brown);
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    .menu-tab:hover, .menu-tab.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--espresso);
+    }
+    .badge-new {
+      display: inline-block;
+      background: #e53e3e;
+      color: white;
+      font-size: 0.62rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-right: 0.4rem;
+      vertical-align: middle;
+    }
+    .badge-popular {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--espresso);
+      font-size: 0.62rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-right: 0.4rem;
+      vertical-align: middle;
+    }
+
+    /* ---- Item Modal ---- */
+    .item-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(26,14,7,0.72);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .item-modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .item-modal-card {
+      background: var(--warm-white);
+      border-radius: 20px;
+      max-width: 460px;
+      width: 100%;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(26,14,7,0.45);
+      transform: scale(0.92) translateY(20px);
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+      position: relative;
+      max-height: 88vh;
+      overflow-y: auto;
+    }
+    .item-modal-overlay.open .item-modal-card {
+      transform: scale(1) translateY(0);
+    }
+    .item-modal-close {
+      position: absolute;
+      top: 0.9rem;
+      left: 0.9rem;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      transition: background 0.2s;
+      line-height: 1;
+    }
+    .item-modal-close:hover { background: rgba(0,0,0,0.8); }
+    .item-modal-img {
+      position: relative;
+      height: 240px;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+      background-color: #1a1008;
+      transition: background-image 0.3s ease;
+    }
+    .item-modal-badge-wrap {
+      position: absolute;
+      top: 0.9rem;
+      right: 0.9rem;
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .item-modal-body {
+      padding: 1.4rem 1.6rem 1.8rem;
+    }
+    .item-modal-body h3 {
+      font-size: 1.4rem;
+      color: var(--espresso);
+      margin-bottom: 0.45rem;
+      line-height: 1.3;
+    }
+    .item-modal-desc {
+      color: var(--medium-brown);
+      font-size: 0.97rem;
+      line-height: 1.65;
+      margin-bottom: 0.9rem;
+    }
+    .item-modal-tags {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .item-modal-tag {
+      font-size: 0.75rem;
+      padding: 0.22rem 0.65rem;
+      border-radius: 50px;
+      background: var(--cream);
+      color: var(--medium-brown);
+      border: 1.5px solid var(--gold-border);
+      font-weight: 600;
+    }
+    .item-modal-divider {
+      height: 1px;
+      background: linear-gradient(90deg, var(--teal), var(--gold), var(--yellow));
+      margin: 1rem 0;
+      opacity: 0.5;
+    }
+    .item-modal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .item-modal-price {
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--espresso);
+      font-family: var(--font-heading);
+      line-height: 1;
+    }
+    .item-modal-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .item-modal-note {
+      font-size: 0.78rem;
+      color: var(--warm-gray);
+      text-align: center;
+      margin-top: 1.1rem;
+    }
+    @media (max-width: 520px) {
+      .item-modal-overlay { align-items: flex-end; padding: 0; }
+      .item-modal-card {
+        border-radius: 20px 20px 0 0;
+        max-height: 92vh;
+        transform: translateY(40px);
+      }
+      .item-modal-overlay.open .item-modal-card { transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar" class="scrolled">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-main">בלה</span>
+      <span class="logo-sub">Boutique Cafe · Safed</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html"    class="nav-link">בית</a></li>
+      <li><a href="menu.html"     class="nav-link active">תפריט</a></li>
+      <li><a href="about.html"    class="nav-link">אודות</a></li>
+      <li><a href="gallery.html"  class="nav-link">גלריה</a></li>
+      <li><a href="reviews.html"  class="nav-link">ביקורות</a></li>
+      <li><a href="contact.html"  class="nav-link">צור קשר</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="reservations.html" class="btn btn-gold btn-sm">הזמנת שולחן</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="תפריט">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="nav-mobile" id="navMobile">
+  <a href="index.html"    class="nav-link">🏠 בית</a>
+  <a href="menu.html"     class="nav-link">☕ תפריט</a>
+  <a href="about.html"    class="nav-link">💛 אודות</a>
+  <a href="gallery.html"  class="nav-link">🖼️ גלריה</a>
+  <a href="reviews.html"  class="nav-link">⭐ ביקורות</a>
+  <a href="contact.html"  class="nav-link">📍 צור קשר</a>
+  <div class="nav-cta">
+    <a href="reservations.html" class="btn btn-gold">הזמנת שולחן</a>
+    <a href="tel:0400000000"    class="btn btn-dark">📞 התקשר</a>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=1600&q=85');"></div>
+  <div class="page-hero-content">
+    <span class="section-label" style="color:var(--teal-light);">מוכן טרי מדי יום</span>
+    <h1>התפריט שלנו</h1>
+    <p>כל פריט מוכן ברגע ההזמנה ממרכיבים שנבחרו בקפידה</p>
+  </div>
+</section>
+
+<!-- MENU CONTENT -->
+<main style="padding-bottom:5rem;">
+  <div class="container">
+
+    <!-- Tabs -->
+    <div class="menu-tabs">
+      <a href="#coffees"    class="menu-tab">☕ קפה</a>
+      <a href="#signature"  class="menu-tab">✨ שתייה מיוחדת</a>
+      <a href="#breakfast"  class="menu-tab">🍳 ארוחות בוקר</a>
+      <a href="#pastries"   class="menu-tab">🥐 מאפים</a>
+      <a href="#desserts"   class="menu-tab">🍰 קינוחים</a>
+      <a href="#cold"       class="menu-tab">🧊 שתייה קרה</a>
+      <a href="#seasonal"   class="menu-tab">🌸 מיוחדי עונה</a>
+    </div>
+
+    <!-- ---- COFFEES ---- -->
+    <section class="menu-section" id="coffees">
+      <div class="menu-category-header reveal">
+        <div class="menu-icon">☕</div>
+        <h2>קפה</h2>
+        <div class="menu-category-line"></div>
+      </div>
+      <div class="menu-items-grid">
+        <div class="menu-item reveal">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=200&q=80" alt="אספרסו" /></div>
+          <div class="menu-item-info"><h4>אספרסו</h4><p>ריסטרטו כפול, פולי ספשיאלטי</p></div>
+          <span class="menu-item-price">₪12</span>
+        </div>
+        <div class="menu-item reveal" data-delay="60">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1534778101976-62847782c213?w=200&q=80" alt="אמריקנו" /></div>
+          <div class="menu-item-info"><h4>אמריקנו</h4><p>אספרסו כפול עם מים חמים</p></div>
+          <span class="menu-item-price">₪14</span>
+        </div>
+        <div class="menu-item reveal" data-delay="120">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=200&q=80" alt="לאטה" /></div>
+          <div class="menu-item-info">
+            <h4>לאטה <span class="badge-popular">פופולרי</span></h4>
+            <p>אספרסו כפול, חלב מוקצף, לאטה ארט</p>
+          </div>
+          <span class="menu-item-price">₪20</span>
+        </div>
+        <div class="menu-item reveal" data-delay="180">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=200&q=80" alt="קפוצ'ינו" /></div>
+          <div class="menu-item-info"><h4>קפוצ'ינו</h4><p>אספרסו, חלב, קצף קרמי</p></div>
+          <span class="menu-item-price">₪18</span>
+        </div>
+        <div class="menu-item reveal" data-delay="240">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=200&q=80" alt="פלט וייט" /></div>
+          <div class="menu-item-info"><h4>פלט וייט</h4><p>ריסטרטו כפול, חלב מאודה עדין</p></div>
+          <span class="menu-item-price">₪22</span>
+        </div>
+        <div class="menu-item reveal" data-delay="300">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1562777717-dc6984f65a63?w=200&q=80" alt="מאקיאטו" /></div>
+          <div class="menu-item-info"><h4>מאקיאטו קרמל</h4><p>אספרסו, קצף, סירופ קרמל</p></div>
+          <span class="menu-item-price">₪24</span>
+        </div>
+        <div class="menu-item reveal" data-delay="60">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1606937295599-ac91d1b8b7a5?w=200&q=80" alt="קורטדו" /></div>
+          <div class="menu-item-info"><h4>קורטדו</h4><p>אספרסו כפול עם חלב שווה</p></div>
+          <span class="menu-item-price">₪18</span>
+        </div>
+        <div class="menu-item reveal" data-delay="120">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1610889556528-9a770e32642f?w=200&q=80" alt="שוקו" /></div>
+          <div class="menu-item-info"><h4>שוקו חם פרמיום</h4><p>שוקולד בלגי, חלב מוקצף, קצפת</p></div>
+          <span class="menu-item-price">₪22</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- SIGNATURE DRINKS ---- -->
+    <section class="menu-section" id="signature">
+      <div class="menu-category-header reveal">
+        <div class="menu-icon">✨</div>
+        <h2>שתייה מיוחדת</h2>
+        <div class="menu-category-line"></div>
+      </div>
+      <div class="menu-items-grid">
+        <div class="menu-item reveal">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?w=200&q=80" alt="לאטה לבנדר" /></div>
+          <div class="menu-item-info">
+            <h4>לאטה לבנדר בלה <span class="badge-new">חדש</span></h4>
+            <p>לאטה עם סירופ לבנדר ביתי, חלב שקדים</p>
+          </div>
+          <span class="menu-item-price">₪28</span>
+        </div>
+        <div class="menu-item reveal" data-delay="80">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=200&q=80" alt="מאצ'ה" /></div>
+          <div class="menu-item-info"><h4>מאצ'ה לאטה</h4><p>מאצ'ה יפני איכותי, חלב שיבולת שועל</p></div>
+          <span class="menu-item-price">₪26</span>
+        </div>
+        <div class="menu-item reveal" data-delay="160">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1585232351009-aa39b24b7b8f?w=200&q=80" alt="תה מרוקאי" /></div>
+          <div class="menu-item-info"><h4>תה נענע מרוקאי</h4><p>תה ירוק, נענע טרייה, דבש</p></div>
+          <span class="menu-item-price">₪18</span>
+        </div>
+        <div class="menu-item reveal" data-delay="240">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=200&q=80" alt="גולדן לאטה" /></div>
+          <div class="menu-item-info">
+            <h4>גולדן לאטה <span class="badge-popular">מומלץ</span></h4>
+            <p>כורכום, ג'ינג'ר, חלב קוקוס, דבש</p>
+          </div>
+          <span class="menu-item-price">₪26</span>
+        </div>
+        <div class="menu-item reveal" data-delay="60">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=200&q=80" alt="ספרסו טוניק" /></div>
+          <div class="menu-item-info"><h4>אספרסו טוניק</h4><p>אספרסו על קרח, טוניק פרמיום, ליים</p></div>
+          <span class="menu-item-price">₪26</span>
+        </div>
+        <div class="menu-item reveal" data-delay="120">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=200&q=80" alt="שייק בננה" /></div>
+          <div class="menu-item-info"><h4>שייק בננה וניל</h4><p>בננה, ונילה, חלב מלא, גלידה</p></div>
+          <span class="menu-item-price">₪28</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- BREAKFAST ---- -->
+    <section class="menu-section" id="breakfast">
+      <div class="menu-category-header reveal">
+        <div class="menu-icon">🍳</div>
+        <h2>ארוחות בוקר</h2>
+        <div class="menu-category-line"></div>
+      </div>
+      <div class="menu-items-grid">
+        <div class="menu-item reveal">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=200&q=80" alt="ארוחת בוקר בלה" /></div>
+          <div class="menu-item-info">
+            <h4>ארוחת בוקר בלה <span class="badge-popular">הסיגנטורה שלנו</span></h4>
+            <p>ביצים, גבינות, ירקות טריים, לחם, ריבה, חמאה, קפה</p>
+          </div>
+          <span class="menu-item-price">₪89</span>
+        </div>
+        <div class="menu-item reveal" data-delay="80">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?w=200&q=80" alt="שקשוקה" /></div>
+          <div class="menu-item-info"><h4>שקשוקה פרמיום</h4><p>עגבניות, פלפלים, ביצים, גבינה, בזיליקום</p></div>
+          <span class="menu-item-price">₪65</span>
+        </div>
+        <div class="menu-item reveal" data-delay="160">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1551782450-17144efb9c50?w=200&q=80" alt="אבוקדו טוסט" /></div>
+          <div class="menu-item-info">
+            <h4>אבוקדו טוסט <span class="badge-new">חדש</span></h4>
+            <p>לחם שאור, אבוקדו, ביצה פוצ'ד, פסטו</p>
+          </div>
+          <span class="menu-item-price">₪68</span>
+        </div>
+        <div class="menu-item reveal" data-delay="240">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=200&q=80" alt="פנקייק" /></div>
+          <div class="menu-item-info"><h4>פנקייק אמריקאי</h4><p>שלישיית פנקייק, סירופ מייפל, פירות טריים</p></div>
+          <span class="menu-item-price">₪58</span>
+        </div>
+        <div class="menu-item reveal" data-delay="60">
+          <div class="menu-item-img"><img src="granola.jpg" alt="גרנולה" /></div>
+          <div class="menu-item-info"><h4>קערת גרנולה</h4><p>גרנולה ביתית, יוגורט יווני, דבש, פירות</p></div>
+          <span class="menu-item-price">₪48</span>
+        </div>
+        <div class="menu-item reveal" data-delay="120">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200&q=80" alt="סלט בוקר" /></div>
+          <div class="menu-item-info"><h4>סלט ירקות טרי</h4><p>עגבניות שרי, מלפפון, גבינת פטה, זיתים, שמן זית</p></div>
+          <span class="menu-item-price">₪42</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- PASTRIES ---- -->
+    <section class="menu-section" id="pastries">
+      <div class="menu-category-header reveal">
+        <div class="menu-icon">🥐</div>
+        <h2>מאפים</h2>
+        <div class="menu-category-line"></div>
+      </div>
+      <div class="menu-items-grid">
+        <div class="menu-item reveal">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=200&q=80" alt="קרואסון" /></div>
+          <div class="menu-item-info">
+            <h4>קרואסון חמאה <span class="badge-popular">אהוב</span></h4>
+            <p>קרואסון צרפתי, חמאה 84%, נאפה בבוקר</p>
+          </div>
+          <span class="menu-item-price">₪16</span>
+        </div>
+        <div class="menu-item reveal" data-delay="80">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=200&q=80" alt="דנמרק" /></div>
+          <div class="menu-item-info"><h4>דנמרק שוקולד</h4><p>בצק דנמרק, שוקולד פרמיום, אגוזים</p></div>
+          <span class="menu-item-price">₪18</span>
+        </div>
+        <div class="menu-item reveal" data-delay="160">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1558024920-b41e1887dc32?w=200&q=80" alt="בורקס" /></div>
+          <div class="menu-item-info"><h4>בורקס גבינה ביתי</h4><p>בצק פריך, גבינה לבנה, שומשום</p></div>
+          <span class="menu-item-price">₪14</span>
+        </div>
+        <div class="menu-item reveal" data-delay="240">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1509365465985-25d11c17e812?w=200&q=80" alt="מאפין" /></div>
+          <div class="menu-item-info">
+            <h4>מאפין אוכמניות <span class="badge-new">חדש</span></h4>
+            <p>מאפין ביתי, אוכמניות טריות, שבבי לימון</p>
+          </div>
+          <span class="menu-item-price">₪16</span>
+        </div>
+        <div class="menu-item reveal" data-delay="60">
+          <div class="menu-item-img"><img src="cinnamon-roll.jpg" alt="רול קינמון" /></div>
+          <div class="menu-item-info"><h4>רול קינמון</h4><p>בצק שמרים, קינמון, ציפוי שמנת</p></div>
+          <span class="menu-item-price">₪18</span>
+        </div>
+        <div class="menu-item reveal" data-delay="120">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1571115177098-24ec42ed204d?w=200&q=80" alt="פיתה שאור" /></div>
+          <div class="menu-item-info"><h4>כיכר שאור ביתית</h4><p>לחם שאור, קמח מלא, זרעים, אפוי בבוקר</p></div>
+          <span class="menu-item-price">₪22</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- DESSERTS ---- -->
+    <section class="menu-section" id="desserts">
+      <div class="menu-category-header reveal">
+        <div class="menu-icon">🍰</div>
+        <h2>קינוחים</h2>
+        <div class="menu-category-line"></div>
+      </div>
+      <div class="menu-items-grid">
+        <div class="menu-item reveal">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=200&q=80" alt="עוגת שוקולד" /></div>
+          <div class="menu-item-info">
+            <h4>עוגת שוקולד בלגי <span class="badge-popular">המיוחד שלנו</span></h4>
+            <p>שוקולד 70%, קרם גנאש, ציפוי קרמל</p>
+          </div>
+          <span class="menu-item-price">₪42</span>
+        </div>
+        <div class="menu-item reveal" data-delay="80">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=200&q=80" alt="טירמיסו" /></div>
+          <div class="menu-item-info"><h4>טירמיסו קלאסי</h4><p>מסקרפונה, ביסקוויטי ספוגייני, קפה</p></div>
+          <span class="menu-item-price">₪38</span>
+        </div>
+        <div class="menu-item reveal" data-delay="160">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=200&q=80" alt="קרם ברולה" /></div>
+          <div class="menu-item-info">
+            <h4>קרם ברולה <span class="badge-new">חדש</span></h4>
+            <p>קרם וניל, ציפוי סוכר קרמלי, תות שדה</p>
+          </div>
+          <span class="menu-item-price">₪44</span>
+        </div>
+        <div class="menu-item reveal" data-delay="240">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=200&q=80" alt="מקרונים" /></div>
+          <div class="menu-item-info"><h4>מקרונים פריזאים</h4><p>זוג מקרונים, טעמים משתנים יומית</p></div>
+          <span class="menu-item-price">₪28</span>
+        </div>
+        <div class="menu-item reveal" data-delay="60">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=200&q=80" alt="צ'יזקייק" /></div>
+          <div class="menu-item-info"><h4>צ'יזקייק ניו יורק</h4><p>גבינת שמנת, בסיס ביסקוויט, יער פירות</p></div>
+          <span class="menu-item-price">₪40</span>
+        </div>
+        <div class="menu-item reveal" data-delay="120">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?w=200&q=80" alt="אפוגאטו" /></div>
+          <div class="menu-item-info"><h4>אפוגאטו</h4><p>גלידת וניל, ריסטרטו כפול חם</p></div>
+          <span class="menu-item-price">₪32</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- COLD DRINKS ---- -->
+    <section class="menu-section" id="cold">
+      <div class="menu-category-header reveal">
+        <div class="menu-icon">🧊</div>
+        <h2>שתייה קרה</h2>
+        <div class="menu-category-line"></div>
+      </div>
+      <div class="menu-items-grid">
+        <div class="menu-item reveal">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=200&q=80" alt="קפה קר" /></div>
+          <div class="menu-item-info">
+            <h4>קפה קר בלה <span class="badge-popular">אהוב</span></h4>
+            <p>קולד ברו, חלב מוקצף, קרח</p>
+          </div>
+          <span class="menu-item-price">₪24</span>
+        </div>
+        <div class="menu-item reveal" data-delay="80">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1534353473418-4cfa6c56fd38?w=200&q=80" alt="אייסד לאטה" /></div>
+          <div class="menu-item-info"><h4>אייסד לאטה קרמל</h4><p>לאטה, קרמל, חלב, קרח</p></div>
+          <span class="menu-item-price">₪26</span>
+        </div>
+        <div class="menu-item reveal" data-delay="160">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1560023907-5f339617ea30?w=200&q=80" alt="לימונדה" /></div>
+          <div class="menu-item-info"><h4>לימונדה ביתית</h4><p>לימון סחוט, נענע, דבש, מים מוגזים</p></div>
+          <span class="menu-item-price">₪18</span>
+        </div>
+        <div class="menu-item reveal" data-delay="240">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=200&q=80" alt="מיץ טרי" /></div>
+          <div class="menu-item-info"><h4>מיץ תפוזים טרי</h4><p>תפוזים סחוטים טריים</p></div>
+          <span class="menu-item-price">₪20</span>
+        </div>
+        <div class="menu-item reveal" data-delay="60">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1499638673689-79a0b5115d87?w=200&q=80" alt="סמות'י" /></div>
+          <div class="menu-item-info"><h4>סמות'י פירות יער</h4><p>תות, פטל, בננה, יוגורט, דבש</p></div>
+          <span class="menu-item-price">₪28</span>
+        </div>
+        <div class="menu-item reveal" data-delay="120">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=200&q=80" alt="אייסד תה" /></div>
+          <div class="menu-item-info"><h4>אייסד תה פירות</h4><p>תה פירות, לימון, נענע, קרח</p></div>
+          <span class="menu-item-price">₪18</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- SEASONAL ---- -->
+    <section class="menu-section" id="seasonal">
+      <div class="menu-category-header reveal">
+        <div class="menu-icon">🌸</div>
+        <h2>מיוחדי העונה</h2>
+        <div class="menu-category-line"></div>
+      </div>
+      <div class="menu-items-grid">
+        <div class="menu-item reveal">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=200&q=80" alt="לאטה ורדים" /></div>
+          <div class="menu-item-info">
+            <h4>לאטה ורדים <span class="badge-new">מיוחד עונה</span></h4>
+            <p>לאטה, מי ורדים ספשיאל, קצפת, ורד</p>
+          </div>
+          <span class="menu-item-price">₪30</span>
+        </div>
+        <div class="menu-item reveal" data-delay="80">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1506459225024-1428097a7e18?w=200&q=80" alt="עוגת תפוחים" /></div>
+          <div class="menu-item-info"><h4>פאי תפוחים וקינמון</h4><p>פאי ביתי, תפוחים, קינמון, גלידת וניל</p></div>
+          <span class="menu-item-price">₪44</span>
+        </div>
+        <div class="menu-item reveal" data-delay="160">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=200&q=80" alt="אגס בייקד" /></div>
+          <div class="menu-item-info"><h4>אגס אפוי עם גבינה</h4><p>אגס עונתי, גבינת ריקוטה, אגוזים, דבש</p></div>
+          <span class="menu-item-price">₪48</span>
+        </div>
+        <div class="menu-item reveal" data-delay="240">
+          <div class="menu-item-img"><img src="https://images.unsplash.com/photo-1484980972926-edee96e0960d?w=200&q=80" alt="קוקטייל חורף" /></div>
+          <div class="menu-item-info"><h4>שתיית תבלינים חמה</h4><p>קינמון, הל, ציפורן, תפוח, לימון, דבש</p></div>
+          <span class="menu-item-price">₪22</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div style="text-align:center; padding:3rem 0 1rem; border-top: 1px solid var(--gold-border);" class="reveal">
+      <h3 style="margin-bottom:0.75rem;">מחכים לכם!</h3>
+      <p style="margin-bottom:1.75rem;">הזמינו שולחן ואנחנו נוודא שהביקור שלכם יהיה בלתי נשכח</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <a href="reservations.html"       class="btn btn-gold btn-lg">הזמנת שולחן</a>
+        <a href="https://wa.me/9720500000000" class="btn btn-whatsapp btn-lg">💬 WhatsApp</a>
+        <a href="tel:0400000000"          class="btn btn-dark btn-lg">📞 התקשר</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <span class="logo-main">בלה</span>
+          <span class="logo-sub">Boutique Cafe · Safed</span>
+          <p>קפה בוטיק יוקרתי בלב צפת העתיקה.</p>
+          <div class="footer-socials">
+            <a href="#" class="social-icon">📸</a>
+            <a href="#" class="social-icon">📘</a>
+            <a href="https://wa.me/9720500000000" class="social-icon">💬</a>
+            <a href="#" class="social-icon">🎵</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>ניווט</h5>
+          <ul class="footer-links">
+            <li><a href="index.html">בית</a></li>
+            <li><a href="menu.html">תפריט</a></li>
+            <li><a href="about.html">אודות</a></li>
+            <li><a href="gallery.html">גלריה</a></li>
+            <li><a href="reservations.html">הזמנת שולחן</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>פרטי קשר</h5>
+          <div class="footer-contact">
+            <div class="footer-contact-item"><span class="icon">📍</span><span>רחוב הגליל 1, צפת</span></div>
+            <div class="footer-contact-item"><span class="icon">📞</span><a href="tel:0400000000">04-0000000</a></div>
+            <div class="footer-contact-item"><span class="icon">📱</span><a href="https://wa.me/9720500000000">050-0000000</a></div>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>שעות פתיחה</h5>
+          <div class="hours-list" style="margin-bottom:1.5rem;">
+            <div class="hours-row"><span class="days">א'–ה'</span><span class="time">08:00–22:00</span></div>
+            <div class="hours-row"><span class="days">יום ו'</span><span class="time">08:00–15:00</span></div>
+            <div class="hours-row"><span class="days">שבת</span><span class="time" style="color:var(--warm-gray);">סגור</span></div>
+          </div>
+          <form class="newsletter-form" onsubmit="return false;">
+            <input type="email" placeholder="האימייל שלכם" />
+            <button type="submit">הירשם</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container">
+      <p>© 2024 בלה Boutique Cafe Safed · כל הזכויות שמורות</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ITEM MODAL -->
+<div id="itemModal" class="item-modal-overlay" role="dialog" aria-modal="true">
+  <div class="item-modal-card">
+    <button class="item-modal-close" id="modalClose" aria-label="סגור">✕</button>
+    <div class="item-modal-img" id="modalImgBg">
+      <img id="modalImg" src="" alt=""
+           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;" />
+      <div id="modalBadgeWrap" class="item-modal-badge-wrap"></div>
+    </div>
+    <div class="item-modal-body">
+      <h3 id="modalName"></h3>
+      <p id="modalDesc" class="item-modal-desc"></p>
+      <div id="modalTags" class="item-modal-tags"></div>
+      <div class="item-modal-divider"></div>
+      <div class="item-modal-footer">
+        <span id="modalPrice" class="item-modal-price"></span>
+        <div class="item-modal-actions">
+          <a href="reservations.html" class="btn btn-gold">הזמנת שולחן</a>
+          <a href="https://wa.me/9720500000000" class="btn btn-whatsapp" style="font-size:0.85rem;padding:0.55rem 1rem;">💬 הזמן</a>
+        </div>
+      </div>
+      <p class="item-modal-note">🌿 מוכן טרי בכל הזמנה · נא ליידע על אלרגיות</p>
+    </div>
+  </div>
+</div>
+
+<div class="whatsapp-float">
+  <a href="https://wa.me/9720500000000" class="whatsapp-btn" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+</div>
+
+<script src="script.js"></script>
+<script>
+(function(){
+  const overlay    = document.getElementById('itemModal');
+  const modalImgBg = document.getElementById('modalImgBg');
+  const modalName  = document.getElementById('modalName');
+  const modalDesc = document.getElementById('modalDesc');
+  const modalPrice= document.getElementById('modalPrice');
+  const modalBadgeWrap = document.getElementById('modalBadgeWrap');
+  const modalTags = document.getElementById('modalTags');
+
+  const categoryTags = {
+    coffees:   ['☕ קפה חם','ניתן עם חלב צמחי','ללא גלוטן'],
+    signature: ['✨ שתייה מיוחדת','ניתן להתאים'],
+    breakfast: ['🍳 ארוחת בוקר','מוגש עם לחם'],
+    pastries:  ['🥐 מאפה טרי','נאפה הבוקר','כשר'],
+    desserts:  ['🍰 קינוח','ניתן להוסיף גלידה'],
+    cold:      ['🧊 שתייה קרה','מוגש על קרח'],
+    seasonal:  ['🌸 מיוחד עונה','זמינות מוגבלת'],
+  };
+
+  document.querySelectorAll('.menu-item').forEach(item => {
+    item.style.cursor = 'pointer';
+    item.addEventListener('click', () => {
+      const img     = item.querySelector('.menu-item-img img');
+      const nameEl  = item.querySelector('.menu-item-info h4');
+      const descEl  = item.querySelector('.menu-item-info p');
+      const priceEl = item.querySelector('.menu-item-price');
+      const badges  = item.querySelectorAll('.badge-new, .badge-popular');
+      const section = item.closest('.menu-section');
+      const secId   = section ? section.id : '';
+
+      const hiResSrc = img.getAttribute('src').replace('w=200','w=600');
+      const modalImg = document.getElementById('modalImg');
+      modalImg.src = hiResSrc;
+      modalImg.alt = img.alt;
+      modalImgBg.style.backgroundImage = `url('${hiResSrc}')`;
+      modalName.innerHTML = nameEl.innerHTML;
+      modalDesc.textContent = descEl.textContent;
+      modalPrice.textContent = priceEl.textContent;
+
+      modalBadgeWrap.innerHTML = '';
+      badges.forEach(b => {
+        const cl = b.cloneNode(true);
+        cl.style.fontSize = '0.82rem';
+        cl.style.padding = '0.3rem 0.75rem';
+        modalBadgeWrap.appendChild(cl);
+      });
+
+      modalTags.innerHTML = '';
+      (categoryTags[secId] || []).forEach(t => {
+        const s = document.createElement('span');
+        s.className = 'item-modal-tag';
+        s.textContent = t;
+        modalTags.appendChild(s);
+      });
+
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeModal() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+})();
+</script>
+</body>
+</html>
