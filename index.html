@@ -23,37 +23,117 @@
       transition: none !important;
     }
 
-    /* Featured menu strip */
-    .featured-strip {
-      display: flex;
-      gap: 2px;
-      overflow: hidden;
-      border-radius: 10px;
-      box-shadow: var(--shadow-med);
-      margin-bottom: 0;
-    }
-    .strip-item {
-      flex: 1;
-      position: relative;
-      height: 320px;
-      overflow: hidden;
-      min-width: 0;
-    }
-    .strip-item img {
-      width: 100%; height: 100%;
-      transition: transform 0.6s ease;
-    }
-    .strip-item:hover img { transform: scale(1.08); }
-    .strip-caption {
-      position: absolute;
-      bottom: 0;
-      right: 0; left: 0;
-      background: linear-gradient(to top, rgba(26,14,7,0.85), transparent);
-      padding: 1.5rem 1.25rem 1rem;
+    /* Signature Menu styling */
+    .signature-section {
+      background: var(--cream);
       color: white;
     }
-    .strip-caption h4 { font-size: 1rem; margin-bottom: 0.15rem; }
-    .strip-caption span { font-size: 0.8rem; color: var(--gold-light); }
+    .signature-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    .sig-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+    .sig-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 300;
+      font-style: italic;
+      color: white;
+      margin-bottom: 1.5rem;
+    }
+    .sig-line {
+      width: 1px;
+      height: 60px;
+      background: rgba(212,175,55,0.4);
+      margin: 0 auto 1.5rem;
+    }
+    .sig-desc {
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      color: rgba(255,255,255,0.6);
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .sig-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 3rem 2rem;
+    }
+    .sig-card {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      text-decoration: none;
+      direction: ltr; /* English first */
+      text-align: left;
+    }
+    .sig-img-wrap {
+      width: 100%;
+      aspect-ratio: 4/5;
+      overflow: hidden;
+      border-radius: 4px;
+      position: relative;
+    }
+    .sig-img-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.1);
+      transition: background 0.4s ease;
+    }
+    .sig-card:hover .sig-img-wrap::after {
+      background: transparent;
+    }
+    .sig-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .sig-card:hover .sig-img-wrap img {
+      transform: scale(1.05);
+    }
+    .sig-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+    .sig-name-en {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: white;
+      margin: 0;
+    }
+    .sig-price {
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+    }
+    .sig-name-he {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.4);
+      margin: 0;
+      direction: rtl;
+      text-align: right;
+    }
 
     /* Gallery preview */
     .gallery-preview {
@@ -260,8 +340,7 @@
     @media (max-width: 900px) {
       .gallery-preview { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
       .gp-item:first-child { grid-row: auto; }
-      .featured-strip { flex-direction: column; }
-      .strip-item { height: 200px; flex: none; }
+      .sig-grid { gap: 2rem 1.5rem; }
       .stats-row { grid-template-columns: 1fr 1fr; }
     }
 
@@ -556,33 +635,74 @@
   </div>
 </div>
 
-<!-- ========================== FEATURED ITEMS ========================== -->
-<section class="section-pad featured-bg">
+<!-- ========================== SIGNATURE ITEMS ========================== -->
+<section class="section-pad signature-section">
   <div class="container">
-    <div class="section-header reveal">
-      <span class="section-label">מהתפריט שלנו</span>
-      <h2 class="gradient-heading">הפריטים האהובים</h2>
-      <div class="gold-line"></div>
-      <p>כל פריט מוכן ברגע ההזמנה, ממרכיבים שנבחרו בקפידה עם אהבה ומסירות</p>
+    <div class="signature-header reveal">
+      <span class="sig-label">Our Signatures</span>
+      <h2 class="sig-title">The Classics</h2>
+      <div class="sig-line"></div>
+      <p class="sig-desc">Crafted with passion, served with elegance. A selection of our most beloved creations.</p>
     </div>
 
-    <div class="featured-strip">
-      <div class="strip-item">
-        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=85" alt="Latte Art" loading="lazy" />
-        <div class="strip-caption"><h4>לאטה פרמיום</h4><span>מ-₪20</span></div>
-      </div>
-      <div class="strip-item">
-        <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&q=85" alt="Croissant" loading="lazy" />
-        <div class="strip-caption"><h4>קרואסון חמאה</h4><span>₪16</span></div>
-      </div>
-      <div class="strip-item">
-        <img src="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=600&q=85" alt="Breakfast" loading="lazy" />
-        <div class="strip-caption"><h4>ארוחת בוקר בוטיק</h4><span>מ-₪65</span></div>
-      </div>
-      <div class="strip-item">
-        <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=600&q=85" alt="Cake" loading="lazy" />
-        <div class="strip-caption"><h4>עוגות בית</h4><span>מ-₪32</span></div>
-      </div>
+    <div class="sig-grid">
+      
+      <!-- Item 1 -->
+      <a href="menu.html" class="sig-card reveal">
+        <div class="sig-img-wrap">
+          <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=85" alt="Premium Latte" loading="lazy" />
+        </div>
+        <div class="sig-info">
+          <div class="sig-top">
+            <h4 class="sig-name-en">Premium Latte</h4>
+            <span class="sig-price">₪20</span>
+          </div>
+          <h5 class="sig-name-he">לאטה פרמיום</h5>
+        </div>
+      </a>
+
+      <!-- Item 2 -->
+      <a href="menu.html" class="sig-card reveal">
+        <div class="sig-img-wrap">
+          <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&q=85" alt="Butter Croissant" loading="lazy" />
+        </div>
+        <div class="sig-info">
+          <div class="sig-top">
+            <h4 class="sig-name-en">Butter Croissant</h4>
+            <span class="sig-price">₪16</span>
+          </div>
+          <h5 class="sig-name-he">קרואסון חמאה</h5>
+        </div>
+      </a>
+
+      <!-- Item 3 -->
+      <a href="menu.html" class="sig-card reveal">
+        <div class="sig-img-wrap">
+          <img src="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=600&q=85" alt="Boutique Breakfast" loading="lazy" />
+        </div>
+        <div class="sig-info">
+          <div class="sig-top">
+            <h4 class="sig-name-en">Boutique Breakfast</h4>
+            <span class="sig-price">₪65</span>
+          </div>
+          <h5 class="sig-name-he">ארוחת בוקר בוטיק</h5>
+        </div>
+      </a>
+
+      <!-- Item 4 -->
+      <a href="menu.html" class="sig-card reveal">
+        <div class="sig-img-wrap">
+          <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=600&q=85" alt="House Cakes" loading="lazy" />
+        </div>
+        <div class="sig-info">
+          <div class="sig-top">
+            <h4 class="sig-name-en">House Cakes</h4>
+            <span class="sig-price">₪32</span>
+          </div>
+          <h5 class="sig-name-he">עוגות בית</h5>
+        </div>
+      </a>
+
     </div>
 
     <div style="text-align:center; margin-top:2.5rem;" class="reveal">
