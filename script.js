@@ -81,20 +81,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const imageSeq = { frame: 0 };
       let imagesLoaded = 0;
 
-      // Make hero section taller so we have room to scroll
-      heroSection.style.height = '400vh';
-      canvas.style.position = 'sticky';
+      // Make canvas cover the hero section
+      canvas.style.position = 'absolute';
       canvas.style.top = '0';
-      canvas.style.height = '100vh';
-      canvas.style.width = '100vw';
+      canvas.style.left = '0';
+      canvas.style.height = '100%';
+      canvas.style.width = '100%';
+      canvas.style.objectFit = 'cover';
       
-      // Ensure the content inside hero (overlay, text) also stays sticky
-      const overlay = document.querySelector('.hero-overlay');
       const content = document.querySelector('.hero-content');
       const scrollIndicator = document.querySelector('.hero-scroll');
-      if (overlay) { overlay.style.position = 'sticky'; overlay.style.top = '0'; overlay.style.height = '100vh'; }
-      if (content) { content.style.position = 'sticky'; content.style.top = '50%'; content.style.transform = 'translateY(-50%)'; }
-      if (scrollIndicator) { scrollIndicator.style.position = 'sticky'; scrollIndicator.style.top = 'calc(100vh - 40px)'; }
 
       // Preload all images
       for (let i = 0; i < frameCount; i++) {
@@ -114,8 +110,9 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollTrigger: {
           trigger: heroSection,
           start: "top top",
-          end: "bottom bottom",
+          end: "+=300%", // 300vh scroll distance for the animation
           scrub: 0.5,
+          pin: true,     // Automatically pins the hero section
         },
         onUpdate: render
       });
@@ -128,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
           scrollTrigger: {
             trigger: heroSection,
             start: "top top",
-            end: "top -100%",
+            end: "+=100%", // Fades out over the first 100vh of scroll
             scrub: true
           }
         });
