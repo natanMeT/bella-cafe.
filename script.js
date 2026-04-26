@@ -69,32 +69,97 @@ document.addEventListener('DOMContentLoaded', () => {
       gsap.ticker.lagSmoothing(0, 0);
     }
 
-    /* ---- Hero Animation ---- */
-    const heroBg = document.querySelector('.hero-bg');
-    if (heroBg) {
-      heroBg.classList.add('loaded');
+    /* ---- Canvas Scroll Sequence Animation ---- */
+    const canvas = document.getElementById('hero-canvas');
+    const heroSection = document.querySelector('.hero');
+    
+    if (canvas && heroSection) {
+      const ctx = canvas.getContext('2d');
+      const frameCount = 192;
+      const currentFrame = (index) => `frames_webp/frame_${String(index + 1).padStart(4, '0')}.webp`;
+      const images = [];
+      const imageSeq = { frame: 0 };
+      let imagesLoaded = 0;
+
+      // Make hero section taller so we have room to scroll
+      heroSection.style.height = '400vh';
+      canvas.style.position = 'sticky';
+      canvas.style.top = '0';
+      canvas.style.height = '100vh';
+      canvas.style.width = '100vw';
       
-      // Hero Parallax
-      gsap.to(heroBg, {
-        yPercent: 20,
+      // Ensure the content inside hero (overlay, text) also stays sticky
+      const overlay = document.querySelector('.hero-overlay');
+      const content = document.querySelector('.hero-content');
+      const scrollIndicator = document.querySelector('.hero-scroll');
+      if (overlay) { overlay.style.position = 'sticky'; overlay.style.top = '0'; overlay.style.height = '100vh'; }
+      if (content) { content.style.position = 'sticky'; content.style.top = '50%'; content.style.transform = 'translateY(-50%)'; }
+      if (scrollIndicator) { scrollIndicator.style.position = 'sticky'; scrollIndicator.style.top = 'calc(100vh - 40px)'; }
+
+      // Preload all images
+      for (let i = 0; i < frameCount; i++) {
+        const img = new Image();
+        img.src = currentFrame(i);
+        img.onload = () => {
+          imagesLoaded++;
+          if (imagesLoaded === 1) render(); // Render first frame immediately
+        };
+        images.push(img);
+      }
+
+      gsap.to(imageSeq, {
+        frame: frameCount - 1,
+        snap: "frame",
         ease: "none",
         scrollTrigger: {
-          trigger: ".hero",
+          trigger: heroSection,
           start: "top top",
-          end: "bottom top",
-          scrub: true
-        }
+          end: "bottom bottom",
+          scrub: 0.5,
+        },
+        onUpdate: render
       });
-      
-      // Hero Content Entrance
-      gsap.from(".hero-content > *", {
-        y: 40,
-        opacity: 0,
-        duration: 1.2,
-        stagger: 0.15,
-        ease: "power3.out",
-        delay: 0.2
-      });
+
+      // Fade out the hero text as you scroll down
+      if (content) {
+        gsap.to([content, scrollIndicator], {
+          opacity: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: heroSection,
+            start: "top top",
+            end: "top -100%",
+            scrub: true
+          }
+        });
+      }
+
+      function render() {
+        if (!images[imageSeq.frame] || !images[imageSeq.frame].complete) return;
+        
+        const img = images[imageSeq.frame];
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        
+        const ctxWidth = canvas.width;
+        const ctxHeight = canvas.height;
+        
+        // object-fit: cover logic
+        const hRatio = ctxWidth / img.width;
+        const vRatio = ctxHeight / img.height;
+        const ratio  = Math.max(hRatio, vRatio);
+        const centerShift_x = (ctxWidth - img.width * ratio) / 2;
+        const centerShift_y = (ctxHeight - img.height * ratio) / 2;
+        
+        ctx.clearRect(0, 0, ctxWidth, ctxHeight);
+        ctx.drawImage(img, 0, 0, img.width, img.height,
+                      centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
+      }
+
+      window.addEventListener('resize', render);
     }
 
     /* ---- Scroll Reveal (GSAP) ---- */
