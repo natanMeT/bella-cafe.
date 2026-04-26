@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollTrigger: {
           trigger: heroSection,
           start: "top top",
-          end: isMobile ? "+=180%" : "+=500%",
+          end: isMobile ? "+=300%" : "+=500%",
           scrub: isMobile ? true : 1,
           pin: true,     // Automatically pins the hero section
         },
@@ -133,15 +133,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
 
+      function resizeCanvas() {
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+      }
+      
+      window.addEventListener('resize', () => {
+        resizeCanvas();
+        render();
+      });
+      resizeCanvas(); // initial sizing
+
       function render() {
         if (!images[imageSeq.frame] || !images[imageSeq.frame].complete) return;
         
         const img = images[imageSeq.frame];
-        const dpr = window.devicePixelRatio || 1;
-        const rect = canvas.getBoundingClientRect();
-        
-        canvas.width = rect.width * dpr;
-        canvas.height = rect.height * dpr;
         
         const ctxWidth = canvas.width;
         const ctxHeight = canvas.height;
@@ -167,8 +174,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.drawImage(img, 0, 0, img.width, img.height,
                       offsetX, offsetY, scaledW, scaledH);
       }
-
-      window.addEventListener('resize', render);
     }
 
     /* ---- Scroll Reveal (GSAP) ---- */
