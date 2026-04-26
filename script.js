@@ -147,6 +147,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const ctxHeight = canvas.height;
         
         // Object-fit logic based on screen size
+        const hRatio = ctxWidth / img.width;
+        const vRatio = ctxHeight / img.height;
         let ratio;
         if (window.innerWidth < 768) {
           // On mobile, use contain to show the full pouring action
