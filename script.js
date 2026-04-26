@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let focusX = 0.5; // default: center
         let zoomFactor = 1;
         if (window.innerWidth < 768) {
-          focusX = 1.0;      // Shift absolute right so the straw is at the edge
+          focusX = 0.35;     // Center glass with straw visible at right edge
           zoomFactor = 0.85; // Zoom out to show more of the splashing ice
         }
         
