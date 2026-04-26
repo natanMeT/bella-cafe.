@@ -105,19 +105,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const isMobile = window.innerWidth < 768;
 
-      gsap.to(imageSeq, {
-        frame: frameCount - 1,
-        snap: "frame",
-        ease: "none",
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: heroSection,
           start: "top top",
-          end: isMobile ? "+=250%" : "+=300%",
+          end: isMobile ? "+=350%" : "+=400%",
           scrub: isMobile ? 0.5 : 1,
           pin: true,     // Automatically pins the hero section
-        },
-        onUpdate: render
+        }
       });
+
+      tl.to(imageSeq, {
+        frame: frameCount - 1,
+        snap: "frame",
+        ease: "none",
+        onUpdate: render,
+        duration: 1 // taking up 1 unit of time
+      });
+
+      // Add a small pause at the end of the timeline.
+      // This means the animation finishes, and then it stays pinned for this extra duration.
+      tl.to({}, { duration: 0.3 }); // 30% extra wait time at the end
 
       // Fade out the hero text as you scroll down
       if (content) {
