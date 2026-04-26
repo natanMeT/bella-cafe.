@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
           trigger: heroSection,
           start: "top top",
           end: isMobile ? "+=180%" : "+=500%",
-          scrub: 1.5,
+          scrub: isMobile ? true : 1,
           pin: true,     // Automatically pins the hero section
         },
         onUpdate: render
