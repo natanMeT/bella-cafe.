@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
           trigger: heroSection,
           start: "top top",
           end: isMobile ? "+=300%" : "+=500%",
-          scrub: isMobile ? true : 1,
+          scrub: isMobile ? 0.5 : 1,
           pin: true,     // Automatically pins the hero section
         },
         onUpdate: render
@@ -153,30 +153,32 @@ document.addEventListener('DOMContentLoaded', () => {
         const ctxWidth = canvas.width;
         const ctxHeight = canvas.height;
         
-        // Always use cover (fill screen, no black bars)
+        // Cover mode: scale to fill the entire canvas with no gaps
         const hRatio = ctxWidth / img.width;
         const vRatio = ctxHeight / img.height;
         const ratio = Math.max(hRatio, vRatio);
 
-        // The glass is physically located at ~62% of the source video's width.
-        // We want to map this 62% point to exactly the 50% point (center) of the mobile screen.
-        let imageFocalX = 0.5;
-        let screenTargetX = 0.5;
-        let zoomFactor = 1;
+        const scaledW = img.width * ratio;
+        const scaledH = img.height * ratio;
+
+        let offsetX, offsetY;
 
         if (window.innerWidth < 768) {
-          imageFocalX = 0.62;    // Focus on the glass
-          screenTargetX = 0.5;   // Place it perfectly in the middle of the screen
-          zoomFactor = 0.85;     // Zoom out to reveal the straw on the right
+          // MOBILE: The glass sits at ~63% of the source image width.
+          // Map that point to ~45% of the screen (slightly left of center for visual balance with text).
+          const glassInSource = 0.63;
+          const targetOnScreen = 0.45;
+          offsetX = (ctxWidth * targetOnScreen) - (scaledW * glassInSource);
+          // Clamp so we never show empty space on either side
+          const minOffset = ctxWidth - scaledW; // most we can shift left
+          offsetX = Math.max(minOffset, Math.min(0, offsetX));
+          // Vertically: shift up slightly so the table/base is visible at bottom
+          offsetY = (ctxHeight - scaledH) * 0.35;
+        } else {
+          // DESKTOP: simple centered cover — no changes
+          offsetX = (ctxWidth - scaledW) / 2;
+          offsetY = (ctxHeight - scaledH) / 2;
         }
-        
-        const finalRatio = ratio * zoomFactor;
-        
-        const scaledW = img.width * finalRatio;
-        const scaledH = img.height * finalRatio;
-        
-        const offsetX = (ctxWidth * screenTargetX) - (scaledW * imageFocalX);
-        const offsetY = (ctxHeight - scaledH) / 2;
         
         ctx.clearRect(0, 0, ctxWidth, ctxHeight);
         ctx.drawImage(img, 0, 0, img.width, img.height,
