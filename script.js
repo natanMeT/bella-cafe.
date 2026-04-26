@@ -151,17 +151,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const vRatio = ctxHeight / img.height;
         const ratio = Math.max(hRatio, vRatio);
 
-        // On mobile, zoom out a bit and center the glass
-        let zoomFactor = 1;
+        // On mobile, shift the focal point to keep the glass centered
         let focusX = 0.5; // default: center
         if (window.innerWidth < 768) {
-          focusX = 0.6;     // center the glass
-          zoomFactor = 0.82; // zoom out to show more of the scene
+          focusX = 0.62;     // center the glass precisely without causing borders
         }
-        const finalRatio = ratio * zoomFactor;
         
-        const scaledW = img.width * finalRatio;
-        const scaledH = img.height * finalRatio;
+        const scaledW = img.width * ratio;
+        const scaledH = img.height * ratio;
         
         const offsetX = (ctxWidth - scaledW) * focusX;
         const offsetY = (ctxHeight - scaledH) / 2;
