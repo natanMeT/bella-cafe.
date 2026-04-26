@@ -162,8 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let focusX = 0.5; // default: center
         let zoomFactor = 1;
         if (window.innerWidth < 768) {
-          focusX = 0.35;     // Center glass with straw visible at right edge
-          zoomFactor = 0.85; // Zoom out to show more of the splashing ice
+          focusX = 0.5;      // Keep centered - glass is in center of source frames
+          zoomFactor = 0.85; // Zoom out to show full glass with straw
         }
         
         const finalRatio = ratio * zoomFactor;
