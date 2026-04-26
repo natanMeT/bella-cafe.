@@ -158,14 +158,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const vRatio = ctxHeight / img.height;
         const ratio = Math.max(hRatio, vRatio);
 
-        // On mobile, shift the focal point to keep the glass centered
+        // On mobile, shift the focal point to show the straw on the right side
         let focusX = 0.5; // default: center
+        let zoomFactor = 1;
         if (window.innerWidth < 768) {
-          focusX = 0.62;     // center the glass precisely without causing borders
+          focusX = 0.85;     // Shift right to show the straw and full glass
+          zoomFactor = 0.85; // Zoom out to show more of the splashing ice
         }
         
-        const scaledW = img.width * ratio;
-        const scaledH = img.height * ratio;
+        const finalRatio = ratio * zoomFactor;
+        
+        const scaledW = img.width * finalRatio;
+        const scaledH = img.height * finalRatio;
         
         const offsetX = (ctxWidth - scaledW) * focusX;
         const offsetY = (ctxHeight - scaledH) / 2;

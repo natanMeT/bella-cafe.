@@ -1491,6 +1491,9 @@ footer {
   .nav-toggle { display: flex; }
   .nav-mobile .nav-link { font-size: 1rem; padding: 0.85rem 1rem; border-bottom: 1px solid rgba(201,162,87,0.08); }
 
+  /* Hide booking bar and trust bar on mobile */
+  .booking-bar-wrapper, .trust-bar { display: none !important; }
+
   /* Hero */
   .hero-content { text-align: center; }
   .hero-subtitle { margin-left: auto; margin-right: auto; font-size: 1rem; max-width: 100%; }
