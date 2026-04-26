@@ -295,42 +295,124 @@
 <div class="cursor-ring"></div>
 <div class="noise-overlay"></div>
 
-<!-- ========================== NAVBAR ========================== -->
-<nav id="navbar" class="transparent">
-  <div class="nav-inner">
-    <a href="index.html" class="nav-logo">
-      <span class="logo-main">בלה</span>
-      <span class="logo-sub">Boutique Cafe · Safed</span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="index.html"    class="nav-link">בית</a></li>
-      <li><a href="menu.html"     class="nav-link">תפריט</a></li>
-      <li><a href="about.html"    class="nav-link">אודות</a></li>
-      <li><a href="gallery.html"  class="nav-link">גלריה</a></li>
-      <li><a href="reviews.html"  class="nav-link">ביקורות</a></li>
-      <li><a href="contact.html"  class="nav-link">צור קשר</a></li>
-    </ul>
-    <div class="nav-cta">
-      <a href="reservations.html" class="btn btn-gold btn-sm">הזמנת שולחן</a>
-    </div>
-    <button class="nav-toggle" id="navToggle" aria-label="תפריט">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
+<!-- ========================== CINEMATIC NAV (Homepage only) ========================== -->
+<style>
+  /* Hide the default navbar on homepage */
+  #navbar { display: none !important; }
+  
+  /* Minimal hamburger button */
+  .cinema-toggle {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 1001;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 50%;
+    transition: all 0.4s ease;
+    padding: 0;
+  }
+  .cinema-toggle:hover {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(212,175,55,0.3);
+  }
+  .cinema-toggle span {
+    display: block;
+    width: 20px;
+    height: 1.5px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 2px;
+    transition: all 0.4s ease;
+  }
+  .cinema-toggle.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); background: var(--gold); }
+  .cinema-toggle.open span:nth-child(2) { opacity: 0; }
+  .cinema-toggle.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); background: var(--gold); }
 
-<!-- Mobile nav -->
-<div class="nav-mobile" id="navMobile">
-  <a href="index.html"    class="nav-link">🏠 בית</a>
-  <a href="menu.html"     class="nav-link">☕ תפריט</a>
-  <a href="about.html"    class="nav-link">💛 אודות</a>
-  <a href="gallery.html"  class="nav-link">🖼️ גלריה</a>
-  <a href="reviews.html"  class="nav-link">⭐ ביקורות</a>
-  <a href="contact.html"  class="nav-link">📍 צור קשר</a>
-  <div class="nav-cta">
-    <a href="reservations.html" class="btn btn-gold">הזמנת שולחן</a>
-    <a href="tel:0400000000"    class="btn btn-dark">📞 התקשר</a>
-    <a href="https://wa.me/9720500000000" class="btn btn-whatsapp">💬 WhatsApp</a>
+  /* Fullscreen overlay menu */
+  .cinema-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(5,3,2,0.95);
+    backdrop-filter: blur(30px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+  .cinema-menu.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .cinema-menu a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 300;
+    color: rgba(255,255,255,0.6);
+    padding: 0.6rem 2rem;
+    letter-spacing: 0.08em;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    direction: ltr;
+  }
+  .cinema-menu a:hover {
+    color: var(--gold-light);
+    letter-spacing: 0.15em;
+  }
+  .cinema-menu .menu-divider {
+    width: 40px;
+    height: 1px;
+    background: rgba(212,175,55,0.2);
+    margin: 1.5rem 0;
+  }
+  .cinema-menu .menu-cta {
+    margin-top: 2rem;
+  }
+  .cinema-menu .menu-cta a {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--espresso);
+    background: var(--gold);
+    padding: 0.9rem 2.5rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+  }
+  .cinema-menu .menu-cta a:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+  }
+</style>
+
+<button class="cinema-toggle" id="cinemaToggle" aria-label="Menu">
+  <span></span><span></span><span></span>
+</button>
+
+<div class="cinema-menu" id="cinemaMenu">
+  <a href="index.html">Home</a>
+  <a href="menu.html">Menu</a>
+  <a href="about.html">About</a>
+  <a href="gallery.html">Gallery</a>
+  <a href="reviews.html">Reviews</a>
+  <a href="contact.html">Contact</a>
+  <div class="menu-divider"></div>
+  <div class="menu-cta">
+    <a href="reservations.html">Reserve a Table</a>
   </div>
 </div>
 
@@ -830,6 +912,22 @@
     bbForm.reset();
     bbForm.style.display = 'flex';
     bbSuccess.style.display = 'none';
+  }
+
+  // Cinema fullscreen menu toggle
+  const cinemaToggle = document.getElementById('cinemaToggle');
+  const cinemaMenu = document.getElementById('cinemaMenu');
+  if (cinemaToggle && cinemaMenu) {
+    cinemaToggle.addEventListener('click', () => {
+      cinemaToggle.classList.toggle('open');
+      cinemaMenu.classList.toggle('open');
+    });
+    cinemaMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        cinemaToggle.classList.remove('open');
+        cinemaMenu.classList.remove('open');
+      });
+    });
   }
 </script>
 </body>
