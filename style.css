@@ -7,16 +7,16 @@
 
 /* ---- Variables ---- */
 :root {
-  --cream:        #050302;
-  --warm-white:   #0A0705;
-  --espresso:     #0D0906;
-  --dark-brown:   #020101;
+  --cream:        #F5EDE4;
+  --warm-white:   #FAF6F1;
+  --espresso:     #2C1A0E;
+  --dark-brown:   #1A0E06;
   --medium-brown: #BFA582;
-  --gold:         #D4AF37;
-  --gold-light:   #F3E5AB;
-  --gold-dark:    #997A00;
+  --gold:         #C9A227;
+  --gold-light:   #D4AF37;
+  --gold-dark:    #8B6914;
   --warm-gray:    #8C7A6B;
-  --light-gray:   #1A1410;
+  --light-gray:   #EDE3D8;
   --teal:         #2DD4BF;
   --teal-dark:    #0D9488;
   --teal-light:   #99F6E4;
@@ -1729,57 +1729,59 @@ footer {
 }
 
 /* ================================================================
-   DARK THEME OVERRIDES
+   COFFEE-MILK WARM THEME
    ================================================================ */
 
-body                            { color: #EDE0CF; }
-h1,h2,h3,h4,h5                 { color: #EDE0CF; }
-p                               { color: #C4A07A; }
+body                            { color: var(--espresso); }
+h1,h2,h3,h4,h5                 { color: var(--dark-brown); }
+p                               { color: #5C4A3A; }
 
 /* Nav */
-.nav-link                       { color: #EDE0CF; }
+.nav-link                       { color: var(--espresso); }
 .nav-link:hover                 { color: var(--gold); }
-.nav-toggle span                { background: #EDE0CF; }
-#navbar.scrolled                { background: rgba(14,10,5,0.97) !important; box-shadow: 0 2px 30px rgba(0,0,0,0.5); }
-.nav-mobile                     { background: rgba(14,10,5,0.98) !important; }
+.nav-toggle span                { background: var(--espresso); }
+#navbar.scrolled                { background: rgba(245,237,228,0.97) !important; box-shadow: 0 2px 30px rgba(44,26,14,0.1); }
+.nav-mobile                     { background: rgba(250,246,241,0.98) !important; }
 
 /* Buttons */
-.btn-dark                       { background: #2A1A0A; color: #EDE0CF; border-color: #3A2510; }
-.btn-dark:hover                 { background: #3A2510; }
-.btn-white                      { background: #221508; color: #EDE0CF; border-color: #3A2510; }
-.btn-white:hover                { background: #2A1A0A; }
+.btn-dark                       { background: var(--espresso); color: var(--cream); border-color: var(--espresso); }
+.btn-dark:hover                 { background: var(--dark-brown); }
+.btn-white                      { background: white; color: var(--espresso); border-color: var(--light-gray); }
+.btn-white:hover                { background: var(--cream); }
 
 /* Form inputs */
 .form-group input,
 .form-group select,
-.form-group textarea            { color: #EDE0CF; }
+.form-group textarea            { color: var(--espresso); background: white; border-color: #D5C8B8; }
 .form-group input::placeholder,
-.form-group textarea::placeholder { color: #6A5035; }
-.form-group select option       { background: #181008; color: #EDE0CF; }
+.form-group textarea::placeholder { color: #A89580; }
+.form-group select option       { background: white; color: var(--espresso); }
 
 /* Form success */
-.form-success                   { background: #0D2318; border-color: #1e4a30; }
-.form-success h3                { color: #6fcf97; }
+.form-success                   { background: #E8F5E9; border-color: #A5D6A7; }
+.form-success h3                { color: #2E7D32; }
 
 /* Card & item headings */
-.card-body h3                   { color: #EDE0CF; }
-.menu-item-info h4              { color: #EDE0CF; }
-.value-card h4                  { color: #EDE0CF; }
-.team-card h4                   { color: #EDE0CF; }
-.author-info strong             { color: #EDE0CF; }
-.contact-detail-text a          { color: #EDE0CF; }
-.map-info h2                    { color: #EDE0CF !important; }
+.card-body h3                   { color: var(--dark-brown); }
+.menu-item-info h4              { color: var(--dark-brown); }
+.value-card h4                  { color: var(--dark-brown); }
+.team-card h4                   { color: var(--dark-brown); }
+.author-info strong             { color: var(--dark-brown); }
+.contact-detail-text a          { color: var(--espresso); }
+.map-info h2                    { color: var(--dark-brown) !important; }
 
-/* Shadows — more visible on dark bg */
+/* Shadows — soft warm shadows */
 .card, .menu-item, .testimonial-card, .value-card, .form-card, .contact-detail {
-  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 24px rgba(44,26,14,0.08);
+  background: white;
+  border-color: rgba(191,165,130,0.2);
 }
 
 /* Scrollbar */
-::-webkit-scrollbar-track       { background: #0E0A05; }
+::-webkit-scrollbar-track       { background: var(--cream); }
 
 /* Item Modal (menu page) */
-.item-modal-card                { background: #181008; }
-.item-modal-body h3             { color: #EDE0CF; }
-.item-modal-tag                 { background: #221508; color: #C4A07A; border-color: rgba(201,162,87,0.2); }
-.item-modal-price               { color: #EDE0CF; }
+.item-modal-card                { background: white; }
+.item-modal-body h3             { color: var(--dark-brown); }
+.item-modal-tag                 { background: var(--cream); color: #5C4A3A; border-color: rgba(191,165,130,0.3); }
+.item-modal-price               { color: var(--dark-brown); }
