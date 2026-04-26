@@ -149,6 +149,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Always use cover (fill screen, no black bars)
         const hRatio = ctxWidth / img.width;
         const vRatio = ctxHeight / img.height;
+        const ratio = Math.max(hRatio, vRatio);
+
         // On mobile, zoom out a bit and center the glass
         let zoomFactor = 1;
         let focusX = 0.5; // default: center
