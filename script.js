@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollTrigger: {
           trigger: heroSection,
           start: "top top",
-          end: isMobile ? "+=150%" : "+=300%", // Shorter scroll on mobile
+          end: isMobile ? "+=250%" : "+=500%", // Longer scroll = slower animation, more time to see frames
           scrub: 0.5,
           pin: true,     // Automatically pins the hero section
         },
