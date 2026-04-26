@@ -41,14 +41,14 @@ document.addEventListener('DOMContentLoaded', () => {
   let lenis;
   if (typeof Lenis !== 'undefined') {
     lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.4,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       direction: 'vertical',
       gestureDirection: 'vertical',
       smooth: true,
       mouseMultiplier: 1,
-      smoothTouch: false,
-      touchMultiplier: 2,
+      smoothTouch: true,
+      touchMultiplier: 1.5,
     });
 
     function raf(time) {
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
           trigger: heroSection,
           start: "top top",
           end: isMobile ? "+=250%" : "+=500%", // Longer scroll = slower animation, more time to see frames
-          scrub: 0.5,
+          scrub: 1.5,
           pin: true,     // Automatically pins the hero section
         },
         onUpdate: render
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // The glass is roughly at 55% from the left of the frame
         let focusX = 0.5; // default: center
         if (window.innerWidth < 768) {
-          focusX = 0.55; // shift slightly right to center the glass
+          focusX = 0.7; // shift to center the glass on mobile
         }
         
         const offsetX = (ctxWidth - scaledW) * focusX;
