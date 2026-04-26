@@ -146,24 +146,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const ctxWidth = canvas.width;
         const ctxHeight = canvas.height;
         
-        // Object-fit logic based on screen size
+        // Always use cover (fill screen, no black bars)
         const hRatio = ctxWidth / img.width;
         const vRatio = ctxHeight / img.height;
-        let ratio;
+        const ratio = Math.max(hRatio, vRatio);
+        
+        const scaledW = img.width * ratio;
+        const scaledH = img.height * ratio;
+        
+        // On mobile, shift the focal point to keep the glass centered
+        // The glass is roughly at 55% from the left of the frame
+        let focusX = 0.5; // default: center
         if (window.innerWidth < 768) {
-          // On mobile, use contain to show the full pouring action
-          ratio = Math.min(hRatio, vRatio);
-        } else {
-          // On desktop, use cover to fill the screen
-          ratio = Math.max(hRatio, vRatio);
+          focusX = 0.55; // shift slightly right to center the glass
         }
         
-        const centerShift_x = (ctxWidth - img.width * ratio) / 2;
-        const centerShift_y = (ctxHeight - img.height * ratio) / 2;
+        const offsetX = (ctxWidth - scaledW) * focusX;
+        const offsetY = (ctxHeight - scaledH) / 2;
         
         ctx.clearRect(0, 0, ctxWidth, ctxHeight);
         ctx.drawImage(img, 0, 0, img.width, img.height,
-                      centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
+                      offsetX, offsetY, scaledW, scaledH);
       }
 
       window.addEventListener('resize', render);
