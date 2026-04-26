@@ -53,43 +53,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ---- Custom Cursor & Cinematic Elements ---- */
-.cursor-dot {
-  width: 8px;
-  height: 8px;
-  background-color: var(--gold);
-  border-radius: 50%;
-  position: fixed;
-  top: 0; left: 0;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: width 0.3s, height 0.3s, background-color 0.3s;
-}
-
+/* ---- Custom Cursor — DISABLED ---- */
+.cursor-dot,
 .cursor-ring {
-  width: 36px;
-  height: 36px;
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  border-radius: 50%;
-  position: fixed;
-  top: 0; left: 0;
-  pointer-events: none;
-  z-index: 9998;
-  transform: translate(-50%, -50%);
-  transition: width 0.3s, height 0.3s, border-color 0.3s, background-color 0.3s;
-}
-
-.cursor-dot.hovered {
-  width: 0px;
-  height: 0px;
-}
-.cursor-ring.hovered {
-  width: 50px;
-  height: 50px;
-  background-color: rgba(212, 175, 55, 0.1);
-  border-color: rgba(212, 175, 55, 0.8);
-  mix-blend-mode: exclusion;
+  display: none !important;
 }
 
 .noise-overlay {
@@ -106,8 +73,8 @@ ul { list-style:none; }
 
 /* ---- Scrollbar ---- */
 ::-webkit-scrollbar { width:6px; }
-::-webkit-scrollbar-track { background:var(--cream); }
-::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, var(--teal), var(--yellow)); border-radius:3px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: #5C3A1E; border-radius:3px; }
 
 /* ================================================================
    TYPOGRAPHY
@@ -486,7 +453,7 @@ h1 em, h2 em {
   justify-content: flex-end;
   align-items: flex-start;
   height: 100%;
-  padding-bottom: 5rem;
+  padding-bottom: 8rem;
   text-align: left;
   direction: ltr;
 }
