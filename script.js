@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollTrigger: {
           trigger: heroSection,
           start: "top top",
-          end: isMobile ? "+=250%" : "+=500%", // Longer scroll = slower animation, more time to see frames
+          end: isMobile ? "+=180%" : "+=500%",
           scrub: 1.5,
           pin: true,     // Automatically pins the hero section
         },
@@ -149,17 +149,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // Always use cover (fill screen, no black bars)
         const hRatio = ctxWidth / img.width;
         const vRatio = ctxHeight / img.height;
-        const ratio = Math.max(hRatio, vRatio);
-        
-        const scaledW = img.width * ratio;
-        const scaledH = img.height * ratio;
-        
-        // On mobile, shift the focal point to keep the glass centered
-        // The glass is roughly at 55% from the left of the frame
+        // On mobile, zoom out a bit and center the glass
+        let zoomFactor = 1;
         let focusX = 0.5; // default: center
         if (window.innerWidth < 768) {
-          focusX = 0.7; // shift to center the glass on mobile
+          focusX = 0.6;     // center the glass
+          zoomFactor = 0.82; // zoom out to show more of the scene
         }
+        const finalRatio = ratio * zoomFactor;
+        
+        const scaledW = img.width * finalRatio;
+        const scaledH = img.height * finalRatio;
         
         const offsetX = (ctxWidth - scaledW) * focusX;
         const offsetY = (ctxHeight - scaledH) / 2;
