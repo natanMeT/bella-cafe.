@@ -453,9 +453,11 @@ h1 em, h2 em {
   justify-content: flex-end;
   align-items: flex-start;
   height: 100%;
-  padding-bottom: 8rem;
+  padding-bottom: 3rem;
+  padding-left: clamp(2rem, 5vw, 6rem);
   text-align: left;
   direction: ltr;
+  max-width: 45%;
 }
 
 .hero-subtitle-label {
