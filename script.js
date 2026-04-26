@@ -103,6 +103,8 @@ document.addEventListener('DOMContentLoaded', () => {
         images.push(img);
       }
 
+      const isMobile = window.innerWidth < 768;
+
       gsap.to(imageSeq, {
         frame: frameCount - 1,
         snap: "frame",
@@ -110,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollTrigger: {
           trigger: heroSection,
           start: "top top",
-          end: "+=300%", // 300vh scroll distance for the animation
+          end: isMobile ? "+=150%" : "+=300%", // Shorter scroll on mobile
           scrub: 0.5,
           pin: true,     // Automatically pins the hero section
         },
@@ -144,10 +146,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const ctxWidth = canvas.width;
         const ctxHeight = canvas.height;
         
-        // object-fit: cover logic
-        const hRatio = ctxWidth / img.width;
-        const vRatio = ctxHeight / img.height;
-        const ratio  = Math.max(hRatio, vRatio);
+        // Object-fit logic based on screen size
+        let ratio;
+        if (window.innerWidth < 768) {
+          // On mobile, use contain to show the full pouring action
+          ratio = Math.min(hRatio, vRatio);
+        } else {
+          // On desktop, use cover to fill the screen
+          ratio = Math.max(hRatio, vRatio);
+        }
+        
         const centerShift_x = (ctxWidth - img.width * ratio) / 2;
         const centerShift_y = (ctxHeight - img.height * ratio) / 2;
         
