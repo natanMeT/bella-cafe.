@@ -158,12 +158,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const vRatio = ctxHeight / img.height;
         const ratio = Math.max(hRatio, vRatio);
 
-        // On mobile, shift the focal point to show the straw on the right side
-        let focusX = 0.5; // default: center
+        // The glass is physically located at ~62% of the source video's width.
+        // We want to map this 62% point to exactly the 50% point (center) of the mobile screen.
+        let imageFocalX = 0.5;
+        let screenTargetX = 0.5;
         let zoomFactor = 1;
+
         if (window.innerWidth < 768) {
-          focusX = 0.5;      // Keep centered - glass is in center of source frames
-          zoomFactor = 0.85; // Zoom out to show full glass with straw
+          imageFocalX = 0.62;    // Focus on the glass
+          screenTargetX = 0.5;   // Place it perfectly in the middle of the screen
+          zoomFactor = 0.85;     // Zoom out to reveal the straw on the right
         }
         
         const finalRatio = ratio * zoomFactor;
@@ -171,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const scaledW = img.width * finalRatio;
         const scaledH = img.height * finalRatio;
         
-        const offsetX = (ctxWidth - scaledW) * focusX;
+        const offsetX = (ctxWidth * screenTargetX) - (scaledW * imageFocalX);
         const offsetY = (ctxHeight - scaledH) / 2;
         
         ctx.clearRect(0, 0, ctxWidth, ctxHeight);
